@@ -2,11 +2,11 @@ import { Outlet } from "react-router-dom";
 import PatientHeader from "./header";
 import PatientFooter from "./footer";
 
-const PatientLayout = () => {
+const PatientLayout = ({ children, patient }) => {
   return (
     <div>
-        <PatientHeader/>
-        <main><Outlet/></main>
+        <PatientHeader patient={patient}/>
+        <main>{children || <Outlet/>}</main>
         <PatientFooter/>
     </div>
   )

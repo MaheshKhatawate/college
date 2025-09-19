@@ -158,7 +158,7 @@ function PatientLogin({ onLoginSuccess }) {
               <button
                 type="submit"
                 disabled={isLoading || !form.loginId || !form.password}
-                className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:from-green-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95"
+                className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:from-green-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 cursor-pointer"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -173,8 +173,11 @@ function PatientLogin({ onLoginSuccess }) {
 
             <div className="mt-4">
               <button
-                onClick={() => window.location.href = '/main/home'}
-                className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors border border-gray-300"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/main/home'
+                }}
+                className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors border border-gray-300 cursor-pointer"
               >
                 🏠 Back to Home
               </button>

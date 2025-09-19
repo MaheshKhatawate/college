@@ -17,7 +17,10 @@ function Header() {
                 <div className="flex gap-4">
                     <button 
                         className="group cursor-pointer relative px-6 py-3 border-2 border-amber-500 text-amber-500 rounded-full font-semibold transition-all duration-300 hover:bg-amber-500 hover:text-black hover:-translate-y-1 hover:shadow-lg hover:shadow-amber-500/30 overflow-hidden"
-                        onClick={() => navigate('/admin/dashboard')}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/admin/dashboard');
+                        }}
                     >
                         <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></span>
                         <span className="relative flex items-center gap-2">
@@ -28,7 +31,10 @@ function Header() {
                     
                     <button 
                         className="group relative cursor-pointer px-6 py-3 border-2 border-amber-500 text-amber-500 rounded-full font-semibold transition-all duration-300 hover:bg-amber-500 hover:text-black hover:-translate-y-1 hover:shadow-lg hover:shadow-amber-500/30 overflow-hidden"
-                        onClick={() => navigate('/patient/dashboard')}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/patient/dashboard');
+                        }}
                     >
                         <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></span>
                         <span className="relative flex items-center gap-2">

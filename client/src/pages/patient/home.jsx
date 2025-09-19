@@ -2,6 +2,7 @@ import React from 'react'
 import PatientLogin from './login'
 import PatientDashboard from './dashboard'
 import SessionWarning from './session-warning'
+import PatientLayout from '../../components/patient/layout'
 import { useAuth } from '../../lib/auth'
 
 export const PatientHome = () => {
@@ -33,7 +34,9 @@ export const PatientHome = () => {
             {!isAuthenticated ? (
                 <PatientLogin onLoginSuccess={login} />
             ) : (
-                <PatientDashboard patient={patientData} onLogout={logout} />
+                <PatientLayout patient={patientData}>
+                    <PatientDashboard patient={patientData} onLogout={logout} />
+                </PatientLayout>
             )}
             
             {/* Session Warning Modal */}

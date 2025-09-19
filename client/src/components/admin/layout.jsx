@@ -29,8 +29,10 @@ function AdminLayout({ children }) {
                             <NavLink
                                 key={link.to}
                                 to={link.to}
-                                className={({ isActive }) => `group flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent/60 hover:text-accent-foreground ${isActive ? 'bg-accent text-primary' : 'text-muted-foreground'}`}
-                                onClick={() => setSidebarOpen(false)}
+                                className={({ isActive }) => `group flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent/60 hover:text-accent-foreground cursor-pointer ${isActive ? 'bg-accent text-primary' : 'text-muted-foreground'}`}
+                                onClick={(e) => {
+                                    setSidebarOpen(false);
+                                }}
                             >
                                 <link.icon className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
                                 <span>{link.label}</span>
@@ -42,7 +44,7 @@ function AdminLayout({ children }) {
                 {/* Overlay for mobile */}
                 {sidebarOpen && (
                     <div
-                        className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"
+                        className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden cursor-pointer"
                         onClick={() => setSidebarOpen(false)}
                     />
                 )}

@@ -3,12 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { useGetPatientDietChartsQuery } from "../../store/apiSlice"
 import { TokenManager } from '../../lib/auth'
 import DietChartModal from './diet-chart-modal'
-import AyurvedaChat from './AyurvedaChat'
 
 function PatientDashboard({ patient, onLogout }) {
   const [selectedChart, setSelectedChart] = useState(null)
   const [isReady, setIsReady] = useState(false)
-  const [showChatbot, setShowChatbot] = useState(false)
   
   useEffect(() => {
     const timer = setTimeout(() => setIsReady(true), 100)
@@ -56,6 +54,28 @@ function PatientDashboard({ patient, onLogout }) {
     }
   }
 
+  const handleQuickAction = (e, action) => {
+    e.preventDefault()
+    console.log('Quick action:', action)
+    // Handle different quick actions without page reload
+    switch (action) {
+      case 'contact-doctor':
+        // Handle contact doctor logic
+        alert('Contact doctor feature will be implemented soon!')
+        break
+      case 'health-progress':
+        // Handle health progress navigation
+        alert('Health progress tracking coming soon!')
+        break
+      case 'tips-guidelines':
+        // Handle tips and guidelines
+        alert('Tips and guidelines section coming soon!')
+        break
+      default:
+        console.log('Unknown action:', action)
+    }
+  }
+
   // Check if token is about to expire
   const shouldShowTokenWarning = TokenManager.shouldRefreshToken()
   const tokenExpiry = TokenManager.getTokenExpiry()
@@ -88,15 +108,21 @@ function PatientDashboard({ patient, onLogout }) {
             </p>
             <div className="flex gap-2 justify-center">
               <button
-                onClick={() => window.location.reload()}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.reload()
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
               >
                 Retry
               </button>
               {error?.status === 401 && (
                 <button
-                  onClick={onLogout}
-                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onLogout()
+                  }}
+                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors cursor-pointer"
                 >
                   Login Again
                 </button>
@@ -110,34 +136,6 @@ function PatientDashboard({ patient, onLogout }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Welcome, {patient.name}!</h1>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span>Patient ID: {patient.loginId}</span>
-                {tokenExpiry && (
-                  <>
-                    <span>•</span>
-                    <span className={`${shouldShowTokenWarning ? 'text-yellow-600 font-medium' : ''}`}>
-                      Session expires: {tokenExpiry.toLocaleTimeString()}
-                    </span>
-                  </>
-                )}
-              </div>
-            </div>
-            <button
-              onClick={onLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Token Warning Banner */}
       {shouldShowTokenWarning && (
         <div className="bg-yellow-50 border-b border-yellow-200">
@@ -150,8 +148,11 @@ function PatientDashboard({ patient, onLogout }) {
                 </span>
               </div>
               <button
-                onClick={() => window.location.reload()}
-                className="text-yellow-800 text-sm underline hover:no-underline"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.reload()
+                }}
+                className="text-yellow-800 text-sm underline hover:no-underline cursor-pointer"
               >
                 Refresh Session
               </button>
@@ -165,24 +166,24 @@ function PatientDashboard({ patient, onLogout }) {
         <div className="space-y-8">
           {/* Patient Info Card */}
           <Card className="bg-gradient-to-r from-green-500 to-blue-500 text-white">
-            <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Your Health Profile</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <CardContent className="p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Your Health Profile</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
                 <div>
-                  <p className="text-green-100 text-sm">Last Login</p>
-                  <p className="font-medium">{patient.lastLogin ? new Date(patient.lastLogin).toLocaleDateString() : 'First time'}</p>
+                  <p className="text-green-100 text-xs md:text-sm">Last Login</p>
+                  <p className="font-medium text-sm md:text-base">{patient.lastLogin ? new Date(patient.lastLogin).toLocaleDateString() : 'First time'}</p>
                 </div>
                 <div>
-                  <p className="text-green-100 text-sm">Total Diet Charts</p>
-                  <p className="font-medium">{dietCharts.length}</p>
+                  <p className="text-green-100 text-xs md:text-sm">Total Diet Charts</p>
+                  <p className="font-medium text-sm md:text-base">{dietCharts.length}</p>
                 </div>
                 <div>
-                  <p className="text-green-100 text-sm">Latest Update</p>
-                  <p className="font-medium">{dietCharts.length > 0 ? new Date(dietCharts[dietCharts.length - 1].date).toLocaleDateString() : 'None'}</p>
+                  <p className="text-green-100 text-xs md:text-sm">Latest Update</p>
+                  <p className="font-medium text-sm md:text-base">{dietCharts.length > 0 ? new Date(dietCharts[dietCharts.length - 1].date).toLocaleDateString() : 'None'}</p>
                 </div>
                 <div>
-                  <p className="text-green-100 text-sm">Status</p>
-                  <p className="font-medium flex items-center justify-center gap-1">
+                  <p className="text-green-100 text-xs md:text-sm">Status</p>
+                  <p className="font-medium flex items-center justify-center gap-1 text-sm md:text-base">
                     <span className="w-2 h-2 bg-green-300 rounded-full"></span>
                     Active
                   </p>
@@ -244,20 +245,20 @@ function PatientDashboard({ patient, onLogout }) {
                       <div className="flex gap-2">
                         <button
                           onClick={() => setSelectedChart({ chart, index })}
-                          className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 transition-colors font-medium"
+                          className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 transition-colors font-medium cursor-pointer"
                         >
                           View Details
                         </button>
                         <button
                           onClick={() => downloadChart(index, 'pdf')}
-                          className="bg-red-600 text-white py-2 px-3 rounded text-sm hover:bg-red-700 transition-colors font-medium"
+                          className="bg-red-600 text-white py-2 px-3 rounded text-sm hover:bg-red-700 transition-colors font-medium cursor-pointer"
                           title="Download as PDF"
                         >
                           PDF
                         </button>
                         <button
                           onClick={() => downloadChart(index, 'image')}
-                          className="bg-green-600 text-white py-2 px-3 rounded text-sm hover:bg-green-700 transition-colors font-medium"
+                          className="bg-green-600 text-white py-2 px-3 rounded text-sm hover:bg-green-700 transition-colors font-medium cursor-pointer"
                           title="Download as Image"
                         >
                           IMG
@@ -278,29 +279,30 @@ function PatientDashboard({ patient, onLogout }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-4 gap-4">
-                <button className="p-4 text-center border rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="text-2xl mb-2">📞</div>
-                  <h3 className="font-medium">Contact Doctor</h3>
-                  <p className="text-sm text-gray-600">Get in touch with your healthcare provider</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                <button 
+                  onClick={(e) => handleQuickAction(e, 'contact-doctor')}
+                  className="p-3 md:p-4 text-center border rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer"
+                >
+                  <div className="text-xl md:text-2xl mb-2">📞</div>
+                  <h3 className="font-medium text-sm md:text-base">Contact Doctor</h3>
+                  <p className="text-xs md:text-sm text-gray-600">Get in touch with your healthcare provider</p>
                 </button>
-                <button className="p-4 text-center border rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="text-2xl mb-2">📊</div>
+                <button 
+                  onClick={(e) => handleQuickAction(e, 'health-progress')}
+                  className="p-3 md:p-4 text-center border rounded-lg hover:bg-green-50 hover:border-green-300 transition-colors cursor-pointer"
+                >
+                  <div className="text-2xl mb-2">�</div>
                   <h3 className="font-medium">Health Progress</h3>
                   <p className="text-sm text-gray-600">Track your health improvements</p>
                 </button>
-                <button className="p-4 text-center border rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="text-2xl mb-2">💡</div>
-                  <h3 className="font-medium">Tips & Guidelines</h3>
-                  <p className="text-sm text-gray-600">Learn about healthy eating</p>
-                </button>
                 <button 
-                  onClick={() => setShowChatbot(true)}
-                  className="p-4 text-center border rounded-lg hover:bg-green-50 hover:border-green-300 transition-colors"
+                  onClick={(e) => handleQuickAction(e, 'tips-guidelines')}
+                  className="p-3 md:p-4 text-center border rounded-lg hover:bg-purple-50 hover:border-purple-300 transition-colors cursor-pointer sm:col-span-2 md:col-span-1"
                 >
-                  <div className="text-2xl mb-2">🤖</div>
-                  <h3 className="font-medium text-green-700">Ayurveda Chatbot</h3>
-                  <p className="text-sm text-gray-600">Ask questions about Ayurveda</p>
+                  <div className="text-xl md:text-2xl mb-2">💡</div>
+                  <h3 className="font-medium text-sm md:text-base">Tips & Guidelines</h3>
+                  <p className="text-xs md:text-sm text-gray-600">Learn about healthy eating</p>
                 </button>
               </div>
             </CardContent>
@@ -316,24 +318,6 @@ function PatientDashboard({ patient, onLogout }) {
           onClose={() => setSelectedChart(null)}
           onDownload={downloadChart}
         />
-      )}
-
-      {/* Ayurveda Chatbot Modal */}
-      {showChatbot && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Ayurveda Chatbot</h2>
-              <button
-                onClick={() => setShowChatbot(false)}
-                className="text-gray-400 hover:text-gray-600 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <AyurvedaChat />
-          </div>
-        </div>
       )}
     </div>
   )
