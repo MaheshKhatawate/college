@@ -7,6 +7,7 @@ const cors = require('cors')
 const doctorRoutes = require('./routes/doctorRoutes')
 const patientRoutes = require('./routes/patientRoutes')
 const downloadRoutes = require('./routes/downloadRoutes')
+const ayurvedaChatbotRoutes = require('./routes/ayurvedaChatbotRoutes')
 
 // Connecting mongoDB
 mongoose.connect("mongodb://localhost:27017/ayurveda-clinic").then(
@@ -40,6 +41,7 @@ app.use(express.json())
 app.use('/api/doctor', doctorRoutes)
 app.use('/api/patient', patientRoutes)
 app.use('/api/download', downloadRoutes)
+app.use('/api/chatbot', ayurvedaChatbotRoutes)
 
 // Health check route
 app.get('/api/health', (req, res) => {

@@ -3,10 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { useGetPatientDietChartsQuery } from "../../store/apiSlice"
 import { TokenManager } from '../../lib/auth'
 import DietChartModal from './diet-chart-modal'
+import AyurvedaChat from './AyurvedaChat'
 
 function PatientDashboard({ patient, onLogout }) {
   const [selectedChart, setSelectedChart] = useState(null)
   const [isReady, setIsReady] = useState(false)
+  const [showChatbot, setShowChatbot] = useState(false)
   
   useEffect(() => {
     const timer = setTimeout(() => setIsReady(true), 100)
@@ -276,7 +278,7 @@ function PatientDashboard({ patient, onLogout }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-4 gap-4">
                 <button className="p-4 text-center border rounded-lg hover:bg-gray-50 transition-colors">
                   <div className="text-2xl mb-2">📞</div>
                   <h3 className="font-medium">Contact Doctor</h3>
@@ -292,6 +294,14 @@ function PatientDashboard({ patient, onLogout }) {
                   <h3 className="font-medium">Tips & Guidelines</h3>
                   <p className="text-sm text-gray-600">Learn about healthy eating</p>
                 </button>
+                <button 
+                  onClick={() => setShowChatbot(true)}
+                  className="p-4 text-center border rounded-lg hover:bg-green-50 hover:border-green-300 transition-colors"
+                >
+                  <div className="text-2xl mb-2">🤖</div>
+                  <h3 className="font-medium text-green-700">Ayurveda Chatbot</h3>
+                  <p className="text-sm text-gray-600">Ask questions about Ayurveda</p>
+                </button>
               </div>
             </CardContent>
           </Card>
@@ -306,6 +316,24 @@ function PatientDashboard({ patient, onLogout }) {
           onClose={() => setSelectedChart(null)}
           onDownload={downloadChart}
         />
+      )}
+
+      {/* Ayurveda Chatbot Modal */}
+      {showChatbot && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Ayurveda Chatbot</h2>
+              <button
+                onClick={() => setShowChatbot(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <AyurvedaChat />
+          </div>
+        </div>
       )}
     </div>
   )
