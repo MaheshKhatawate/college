@@ -119,6 +119,14 @@
   }
 }
 
+/* Jost font utility (based on Google Fonts snippet) */
+.font-jost {
+  font-family: "Jost", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* Custom animations for home page */
 @keyframes fadeInUp {
   from {

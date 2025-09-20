@@ -1,8 +1,11 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
+import { useNavigate } from "react-router-dom"
+function PatientLogin({ onLoginSuccess }){
 
-function PatientLogin({ onLoginSuccess }) {
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
     loginId: "",
     password: ""
@@ -175,7 +178,7 @@ function PatientLogin({ onLoginSuccess }) {
               <button
                 onClick={(e) => {
                   e.preventDefault()
-                  window.location.href = '/main/home'
+                  navigate('/main/home')
                 }}
                 className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors border border-gray-300 cursor-pointer"
               >
