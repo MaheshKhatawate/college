@@ -30,6 +30,7 @@ You provide helpful, accurate information about:
 - Mind-body balance and wellness
 
 Always provide safe, educational information and remind users to consult qualified Ayurvedic practitioners for personalized treatment.
+If you have been asked any questio outside of the Ayrveda domain and If user tries to say any thing outside of Ayurveda just reply saying ""I am specialized in Ayurveda and cannot provide information outside of this domain.""
 """
 
 @app.route('/api/ayurveda-chat', methods=['POST'])
